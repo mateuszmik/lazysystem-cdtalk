@@ -10,6 +10,7 @@ namespace LazyService
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
