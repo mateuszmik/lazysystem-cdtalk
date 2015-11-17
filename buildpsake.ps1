@@ -10,13 +10,13 @@ task default -depends Test
 
 task Test -depends Compile, Clean { 
   exec { 
-        & "src\LazyService\packages\NUnit.Console.3.0.0\tools\nunit3-console.exe" "src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
+        & "$PSScriptRoot\src\LazyService\packages\NUnit.Console.3.0.0\tools\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
     }
 
-}
+}   
 
 task Compile -depends Clean { 
-  Exec { msbuild "src/LazyService/LazyService.sln" }
+  Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" }
 }
 
 task Clean { 
