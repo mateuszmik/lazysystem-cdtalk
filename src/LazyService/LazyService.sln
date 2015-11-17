@@ -5,6 +5,15 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyService", "LazyService\LazyService.csproj", "{FC86153C-37BC-487B-9F3B-BE3F16B2C3AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyWebApp", "LazyWebApp\LazyWebApp.csproj", "{DEE0F482-10B4-4CCD-B474-8E52E6CAE4AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LazyService.Tests", "LazyService.Tests\LazyService.Tests.csproj", "{C276D455-92FE-4A4D-BC47-C72D6900D326}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CEB93088-E53B-4B41-803B-78EB608C9714}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +24,14 @@ Global
 		{FC86153C-37BC-487B-9F3B-BE3F16B2C3AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC86153C-37BC-487B-9F3B-BE3F16B2C3AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC86153C-37BC-487B-9F3B-BE3F16B2C3AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEE0F482-10B4-4CCD-B474-8E52E6CAE4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEE0F482-10B4-4CCD-B474-8E52E6CAE4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEE0F482-10B4-4CCD-B474-8E52E6CAE4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEE0F482-10B4-4CCD-B474-8E52E6CAE4AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C276D455-92FE-4A4D-BC47-C72D6900D326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C276D455-92FE-4A4D-BC47-C72D6900D326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C276D455-92FE-4A4D-BC47-C72D6900D326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C276D455-92FE-4A4D-BC47-C72D6900D326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
