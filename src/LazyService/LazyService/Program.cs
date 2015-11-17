@@ -20,7 +20,7 @@ namespace LazyService
                 {
                     s.ConstructUsing(name => new LazyWorker(log,configurationSource));
                     s.WhenStarted(tc => tc.Start());
-                    s.WhenStopped(tc => tc.asdfStop());
+                    s.WhenStopped(tc => tc.Stop());
                 });
                 x.RunAsLocalSystem();
 
