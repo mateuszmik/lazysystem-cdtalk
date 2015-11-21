@@ -52,6 +52,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppConfigConfigurationSource.cs" />
+    <Compile Include="IConfigurationSource.cs" />
+    <Compile Include="LazyWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
