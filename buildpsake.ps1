@@ -4,8 +4,9 @@ properties {
   $cleanMessage = 'Executed Clean!'
   $configuration = "Debug"
   $framework = "4.5"
-  $zipFrom = "c:\git\lazysystem-cdtalk\src\LazyService\LazyService\bin\Debug\"
-  $zipTo = "$PSScriptRoot\build\LazyService.zip"
+  $buildDir = "$PSScriptRoot\build" 
+  $zipFrom = "$PSScriptRoot\src\LazyService\LazyService\bin\Debug\"
+  $zipTo = "$buildDir\LazyService.zip"
 }
 
 task default -depends Pack
@@ -23,6 +24,12 @@ task Pack -depends Test{
 
         write-host "Removing $zipTo"
         remove-item $zipTo
+    }
+
+    write-host "Checking if dir $buildDir is created"
+    if(-not (test-path $buildDir)){
+        write-host "Creating direcotyr $buildDir"
+        New-Item -ItemType Directory -Force -Path $buildDir
     }
 
     Add-Type -assembly "system.io.compression.filesystem"
