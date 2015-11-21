@@ -1,0 +1,5 @@
+ components:
+   - component: LazyService
+     config:
+       repository: //depot/OGUP/
+       database: sqlserver
