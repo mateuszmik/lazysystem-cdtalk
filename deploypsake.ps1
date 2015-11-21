@@ -36,8 +36,8 @@ task DeployServiceTask -depends DeployDBTask {
 task CleanTask -depends InitializeTask{ 
   write-host "Cleaning up..."  
 
-  if(test-path "c:\git\lazysystem-cdtalk\build\unpack"){
-    remove-item "c:\git\lazysystem-cdtalk\build\unpack\" -force -recurse
+  if(test-path "$PSScriptRoot\build\unpack"){
+    remove-item "$PSScriptRoot\build\unpack\" -force -recurse
   }
 }
 
@@ -75,5 +75,5 @@ function UninstallService($service, $env){
 }
 
 function Get-PathToService{
-  "c:\git\lazysystem-cdtalk\build"
+  "$PSScriptRoot\build"
 }

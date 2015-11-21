@@ -17,7 +17,7 @@ task Test -depends Compile, Clean {
     }
 }
 
-task Pack{
+task Pack -depends Test{
 
     if(Test-Path $zipTo){
 
