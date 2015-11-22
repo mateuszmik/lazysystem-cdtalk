@@ -1,6 +1,4 @@
 properties {
-  $testMessage = 'Executed Test!'
-  $compileMessage = 'Executed Compile!'
   $cleanMessage = 'Executed Clean!'
   $configuration = "Debug"
   $framework = "4.5"
@@ -9,14 +7,10 @@ properties {
   $zipTo = "$buildDir\LazyService.zip"
 }
 
+cls
+
 task default -depends Pack
 
-
-task Test -depends Compile, Clean { 
-    exec { 
-        & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
-    }
-}
 
 task Pack -depends Test{
 
@@ -37,6 +31,12 @@ task Pack -depends Test{
     write-host "Zipping $zipFrom ==> $zipTo"
     [io.compression.zipfile]::CreateFromDirectory($zipFrom, $zipTo)
 }   
+
+task Test -depends Compile, Clean { 
+    exec { 
+        & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
+    }
+}
 
 task Compile -depends Clean { 
   Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" }

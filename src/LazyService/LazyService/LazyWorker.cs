@@ -15,9 +15,6 @@ namespace LazyService
             _configurationSource = configurationSource;
         }
 
-        private readonly Timer _timer;
-
-
         public void Start()
         {
             _log.InfoFormat("Starting {0} [{1}]",_configurationSource.ServiceName,_configurationSource.ServiceDescription);
