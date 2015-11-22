@@ -23,9 +23,6 @@ namespace LazyService
                 x.RunAsLocalSystem();
 
                 log.InfoFormat("Starting {0} [{1}]",configurationSource.ServiceName,configurationSource.ServiceDescription);
-                x.SetDescription(configurationSource.ServiceDescription);
-                x.SetDisplayName(configurationSource.ServiceName);
-                x.SetServiceName(configurationSource.ServiceName);
             });
         }
     }
