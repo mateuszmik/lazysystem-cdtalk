@@ -3,6 +3,6 @@
     public interface IConfigurationSource
     {
         string ServiceName { get; }
-        string ServiceDescription { get; set; }
+        string ServiceDedscription { get; set; }
     }
 }
