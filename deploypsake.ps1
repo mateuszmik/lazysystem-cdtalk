@@ -27,7 +27,7 @@ task UninstallServiceTask -depends CleanTask {
 
 task DeployDBTask -depends UninstallServiceTask { 
   
-   $connectionString = "Server=localhost\SQLEXPRESS; Database=lazydb; Integrated Security=False;User Id=sa;Password=Global2000;"
+   $connectionString = GetYmlValue "lazydb" "config.connectionstring.$deploymentTarget"
    exec {& $roundhouse_path /debug /cs=$connectionString /dt=sqlserver /o=".\database\logs" /f="$PSScriptRoot\database" /u=upgrade /vf=.\database\version.xml /vx=/version /r=/lazysystem /ct=18000 /cta=18000 /simple /silent /donotbackupdatabase}
 }   
 
@@ -55,17 +55,21 @@ function DeployService($service, $env){
     CopyService $service $env
     $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
 
+    write-host "Trying to install service $serviceNameInThisEnv"
     exec { &"$target_path$service\$service.exe" install -servicename:$serviceNameInThisEnv -displayname:$serviceNameInThisEnv}
 
-    exec { &"$target_path$service\$service.exe" start}
+    write-host "Trying to start service $serviceNameInThisEnv"
+    exec { &"$target_path$service\$service.exe" start -servicename:$serviceNameInThisEnv}
 }
 
 function UninstallService($service, $env){
     write-host "Uninstalling Service [$service] to environment $env"
     $pathToUninstall = "$target_path$service\$service.exe"
+    $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
+
 
     if(Test-Path $pathToUninstall){
-      exec { &"$target_path$service\$service.exe" uninstall}  
+      exec { &"$target_path$service\$service.exe" uninstall -servicename:$serviceNameInThisEnv}  
     }
     else{
       write-host "No service, nothing to do"
