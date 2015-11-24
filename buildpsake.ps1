@@ -15,7 +15,6 @@ task default -depends Pack
 task Pack -depends Test{
 
     if(Test-Path $zipTo){
-
         write-host "Removing $zipTo"
         remove-item $zipTo
     }

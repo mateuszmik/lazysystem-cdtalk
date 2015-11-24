@@ -3,6 +3,7 @@ properties {
   $framework = "4.5"
   $deploymentTarget = $env:DEPLOYMENT_TARGET
   $target_path = "c:\lazysystem\"
+  $path_to_install = "$target_path$deploymentTarget\"
   $roundhouse_path= ".\tools\roundhouse\rh.exe"
 }
 
@@ -49,32 +50,35 @@ task VerifyTask -depends DeployServiceTask{
 }
 
 
-function DeployService($service, $env){
-    write-host "Deploying Service [$service] to environment $env"
-    
-    CopyService $service $env
-    $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
-
-    write-host "Trying to install service $serviceNameInThisEnv"
-    exec { &"$target_path$service\$service.exe" install -servicename:$serviceNameInThisEnv -displayname:$serviceNameInThisEnv}
-
-    write-host "Trying to start service $serviceNameInThisEnv"
-    exec { &"$target_path$service\$service.exe" start -servicename:$serviceNameInThisEnv}
-}
-
 function UninstallService($service, $env){
-    write-host "Uninstalling Service [$service] to environment $env"
-    $pathToUninstall = "$target_path$service\$service.exe"
+    $path_to_installed_service = "$path_to_install\$service"
+    write-host "Uninstalling Service [$service] to environment $env (path $path_to_installed_service\$service.exe)"
+    $pathToUninstall = "$path_to_installed_service\$service.exe"
     $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
 
-
+    write-host "Checking if service exists under $pathToUninstall"
     if(Test-Path $pathToUninstall){
-      exec { &"$target_path$service\$service.exe" uninstall -servicename:$serviceNameInThisEnv}  
+      exec { &"$path_to_installed_service\$service.exe" uninstall -servicename:$serviceNameInThisEnv}  
     }
     else{
       write-host "No service, nothing to do"
     }
 }
+
+function DeployService($service, $env){
+    $path_to_installed_service = "$path_to_install\$service"
+    write-host "Deploying Service [$service] to environment $env (under path $path_to_installed_service)"
+    
+    CopyService $service $path_to_installed_service
+    $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
+
+    write-host "Trying to install service $serviceNameInThisEnv (on $path_to_installed_service\$service.exe)"
+    exec { &"$path_to_installed_service\$service.exe" install -servicename:$serviceNameInThisEnv -displayname:$serviceNameInThisEnv}
+
+    write-host "Trying to start service $serviceNameInThisEnv"
+    exec { &"$path_to_installed_service\$service.exe" start -servicename:$serviceNameInThisEnv}
+}
+
 
 function GetYmlValue($serviceName, $pathToYml){
   write-host resolving $serviceName $pathToYml
@@ -88,16 +92,25 @@ function GetYmlValue($serviceName, $pathToYml){
 }
 
 
-function CopyService($service, $env){
-  $path = Get-PathToService $service $env
-    $unpackFrom = "$path\$service.zip"
-    $unpackTo = "$path\unpack\"
+function CopyService($service, $destination_path){
+    $base_unpack_path = "$PSScriptRoot\build"
+    $unpackFrom = "$base_unpack_path\$service.zip"
+    $unpackTo = "$base_unpack_path\unpack\"
     write-host "Unpacking $unpackFrom ==> $unpackTo"
     [io.compression.zipfile]::ExtractToDirectory($unpackFrom, $unpackTo)
 
-    copy-item "$unpackTo\*" $target_path -recurse -force
+    CreateDirIfDoesNotExist "$destination_path\"
+
+
+    write-host "Copying all from folder $unpackTo to $destination_path\"
+    copy-item "$unpackTo\*" "$destination_path\" -recurse -force
 }
 
-function Get-PathToService{
-  "$PSScriptRoot\build"
+function CreateDirIfDoesNotExist($dir){
+  write-host "Checking if path exists ($dir)"
+  if(-not (Test-Path "$dir")){
+      write-host "Creating path ($dir)"
+      New-Item -ItemType Directory -Force -Path "$dir"
+    }
 }
+     
