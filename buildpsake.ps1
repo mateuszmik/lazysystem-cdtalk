@@ -11,6 +11,19 @@ cls
 
 task default -depends Pack
 
+task Clean { 
+  $cleanMessage
+}
+
+task Compile -depends Clean { 
+  Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" }
+}
+
+task Test -depends Compile, Clean { 
+    exec { 
+        & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
+    }
+}
 
 task Pack -depends Test{
 
@@ -31,16 +44,5 @@ task Pack -depends Test{
     [io.compression.zipfile]::CreateFromDirectory($zipFrom, $zipTo)
 }   
 
-task Test -depends Compile, Clean { 
-    exec { 
-        & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
-    }
-}
 
-task Compile -depends Clean { 
-  Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" }
-}
 
-task Clean { 
-  $cleanMessage
-}
