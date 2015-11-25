@@ -37,7 +37,7 @@ namespace LazyService
         {
             PleaseWaitABit();
             shouldStop = true;
-            _log.InfoFormat("Starting {0} [{1}]", _configurationSource.ServiceName, _configurationSource.ServiceDescription);
+            _log.InfoFormat("Stopping {0} [{1}]", _configurationSource.ServiceName, _configurationSource.ServiceDescription);
         }
 
         private void PleaseWaitABit()

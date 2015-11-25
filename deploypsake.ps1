@@ -21,6 +21,14 @@ task InitializeTask{
 }
 
 
+task CleanTask -depends InitializeTask{ 
+  write-host "Cleaning up..."  
+
+  if(test-path "$PSScriptRoot\build\unpack"){
+    remove-item "$PSScriptRoot\build\unpack\" -force -recurse
+  }
+}
+
 task UninstallServiceTask -depends CleanTask { 
   UninstallService "LazyService" $deploymentTarget
 }
@@ -37,17 +45,12 @@ task DeployServiceTask -depends DeployDBTask {
   
 }
 
-task CleanTask -depends InitializeTask{ 
-  write-host "Cleaning up..."  
-
-  if(test-path "$PSScriptRoot\build\unpack"){
-    remove-item "$PSScriptRoot\build\unpack\" -force -recurse
-  }
-}
 
 task VerifyTask -depends DeployServiceTask{ 
   write-host "Veryfying..."  
 }
+
+
 
 
 function UninstallService($service, $env){
