@@ -14,6 +14,7 @@ namespace LazyService
 
             HostFactory.Run(x =>
             {
+                //
                 x.Service<LazyWorker>(s =>
                 {
                     s.ConstructUsing(name => new LazyWorker(log,configurationSource));
