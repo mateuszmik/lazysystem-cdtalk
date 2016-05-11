@@ -11,7 +11,7 @@ namespace LazyService
 
             var log = LogManager.GetLogger(typeof(LazyWorker));
             var configurationSource = new AppConfigConfigurationSource();
-
+            //
             HostFactory.Run(x =>
             {
                 x.Service<LazyWorker>(s =>
