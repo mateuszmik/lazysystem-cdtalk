@@ -54,11 +54,18 @@ task VerifyTask -depends DeployServiceTask{
 
 
 function UninstallService($service, $env){
+    
+    #======= setting paths
     $path_to_installed_service = "$path_to_install\$service"
     write-host "Uninstalling Service [$service] to environment $env (path $path_to_installed_service\$service.exe)"
     $pathToUninstall = "$path_to_installed_service\$service.exe"
+    
+
+    #=======per environment configuration
     $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
 
+
+    #======= running uninstallation
     write-host "Checking if service exists under $pathToUninstall"
     if(Test-Path $pathToUninstall){
       exec { &"$path_to_installed_service\$service.exe" uninstall -servicename:$serviceNameInThisEnv}  
@@ -69,15 +76,20 @@ function UninstallService($service, $env){
 }
 
 function DeployService($service, $env){
+    
+    #====== setting some paths
     $path_to_installed_service = "$path_to_install\$service"
     write-host "Deploying Service [$service] to environment $env (under path $path_to_installed_service)"
     
+    #====== copying binaries
     CopyService $service $path_to_installed_service
     $serviceNameInThisEnv = GetYmlValue $service "config.serviceName.$env"
 
+    #====== running install
     write-host "Trying to install service $serviceNameInThisEnv (on $path_to_installed_service\$service.exe)"
     exec { &"$path_to_installed_service\$service.exe" install -servicename:$serviceNameInThisEnv -displayname:$serviceNameInThisEnv}
 
+    # running start
     write-host "Trying to start service $serviceNameInThisEnv"
     exec { &"$path_to_installed_service\$service.exe" start -servicename:$serviceNameInThisEnv}
 }
@@ -93,6 +105,8 @@ function GetYmlValue($serviceName, $pathToYml){
   write-host "value: $value"
   $value
 }
+
+#===================
 
 
 function CopyService($service, $destination_path){

@@ -1,5 +1,5 @@
 properties {
-  $cleanMessage = 'Executed Clean!'
+  $cleanMessage = 'Saying hello. This can be used for cleanup or something!'
   $configuration = "Debug"
   $framework = "4.5"
   $buildDir = "$PSScriptRoot\build" 
@@ -11,21 +11,27 @@ cls
 
 task default -depends Pack
 
-task Clean { 
+task Hello { 
   $cleanMessage
 }
 
-task Compile -depends Clean { 
+task Compile -depends Hello { 
   Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" }
 }
 
-task Test -depends Compile, Clean { 
+task Test -depends Compile, Hello { 
     exec { 
         & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
     }
 }
 
-task Pack -depends Test{
+
+task Lint -depends Test { 
+  "LINTING"
+}
+
+
+task Pack -depends Lint{
 
     if(Test-Path $zipTo){
         write-host "Removing $zipTo"
