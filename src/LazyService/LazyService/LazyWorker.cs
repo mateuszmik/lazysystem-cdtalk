@@ -18,7 +18,9 @@ namespace LazyService
         public void Start()
         {
             PleaseWaitABit();
-            _log.InfoFormat("Starting {0} [{1}]",_configurationSource.ServiceName,_configurationSource.ServiceDescription);
+            _log.InfoFormat("Starting {0} [{1}]",
+                                _configurationSource.ServiceName,
+                                _configurationSource.ServiceDescription);
             var thread=  new Thread(x => Run());
             thread.Start();
 
@@ -37,7 +39,9 @@ namespace LazyService
         {
             PleaseWaitABit();
             shouldStop = true;
-            _log.InfoFormat("Stopping {0} [{1}]", _configurationSource.ServiceName, _configurationSource.ServiceDescription);
+            _log.InfoFormat("Stopping {0} [{1}]", 
+                                _configurationSource.ServiceName, 
+                                _configurationSource.ServiceDescription);
         }
 
         private void PleaseWaitABit()
