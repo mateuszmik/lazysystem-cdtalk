@@ -9,14 +9,14 @@ properties {
 
 cls
 
-task default -depends Pack
+task default -depends Verify
 
 task Hello { 
   $cleanMessage
 }
 
 task Compile -depends Hello { 
-  Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" }
+  Exec { msbuild "$PSScriptRoot/src/LazyService/LazyService.sln" /p:Configuration=Release  }
 }
 
 task Test -depends Compile, Hello { 
@@ -50,5 +50,8 @@ task Pack -depends Lint{
     [io.compression.zipfile]::CreateFromDirectory($zipFrom, $zipTo)
 }   
 
+task Verify -depends Pack{
+  "Veryfing... "
+}
 
 
