@@ -3,7 +3,6 @@ properties {
   $framework = "4.5"
   $deploymentTarget = $env:DEPLOYMENT_TARGET
   $target_path = "c:\lazysystem\"
-  $path_to_install = "$target_path$deploymentTarget\"
   $roundhouse_path= ".\tools\roundhouse\rh.exe"
 }
 
@@ -56,7 +55,7 @@ task VerifyTask -depends DeployServiceTask{
 function UninstallService($service, $env){
     
     #======= setting paths
-    $path_to_installed_service = "$path_to_install\$service"
+    $path_to_installed_service = "$target_path$env\$service"
     write-host "Uninstalling Service [$service] to environment $env (path $path_to_installed_service\$service.exe)"
     $pathToUninstall = "$path_to_installed_service\$service.exe"
     
@@ -78,7 +77,7 @@ function UninstallService($service, $env){
 function DeployService($service, $env){
     
     #====== setting some paths
-    $path_to_installed_service = "$path_to_install\$service"
+    $path_to_installed_service = "$target_path$env\$service"
     write-host "Deploying Service [$service] to environment $env (under path $path_to_installed_service)"
     
     #====== copying binaries
@@ -89,7 +88,7 @@ function DeployService($service, $env){
     write-host "Trying to install service $serviceNameInThisEnv (on $path_to_installed_service\$service.exe)"
     exec { &"$path_to_installed_service\$service.exe" install -servicename:$serviceNameInThisEnv -displayname:$serviceNameInThisEnv}
 
-    # running start
+    #====== running start
     write-host "Trying to start service $serviceNameInThisEnv"
     exec { &"$path_to_installed_service\$service.exe" start -servicename:$serviceNameInThisEnv}
 }
