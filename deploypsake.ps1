@@ -14,7 +14,7 @@ Import-Module $PSScriptRoot\tools\poweryaml\poweryaml.psm1
 task default -depends VerifyTask
 
 task InitializeTask{
-  write-host "Starting deployment of LazySystem."
+  write-host "Starting deployment of LazySystem!"
   write-host "ENVIRONMENT: $($deploymentTarget)"
 }
 
