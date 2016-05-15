@@ -1,6 +1,5 @@
 properties {
-  $cleanMessage = 'Saying hello. This can be used for cleanup or something!'
-  $configuration = "Debug"
+  $helloMessage = 'Saying hello. This can be used for cleanup or something!'
   $framework = "4.5"
   $buildDir = "$PSScriptRoot\build" 
   $zipFrom = "$PSScriptRoot\src\LazyService\LazyService\bin\Debug\"
@@ -12,7 +11,7 @@ cls
 task default -depends Verify
 
 task Hello { 
-  $cleanMessage
+  $helloMessage
 }
 
 task Compile -depends Hello { 
@@ -33,17 +32,20 @@ task Lint -depends Test {
 
 task Pack -depends Lint{
 
+    #=== removing old stuff 
     if(Test-Path $zipTo){
         write-host "Removing $zipTo"
         remove-item $zipTo
     }
 
+    #=== adding some folder
     write-host "Checking if dir $buildDir is created"
     if(-not (test-path $buildDir)){
         write-host "Creating direcotyr $buildDir"
         New-Item -ItemType Directory -Force -Path $buildDir
     }
 
+    #=== compressing
     Add-Type -assembly "system.io.compression.filesystem"
 
     write-host "Zipping $zipFrom ==> $zipTo"
@@ -53,5 +55,3 @@ task Pack -depends Lint{
 task Verify -depends Pack{
   "Veryfing... "
 }
-
-

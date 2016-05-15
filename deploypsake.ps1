@@ -1,5 +1,4 @@
 properties {
-  $configuration = "Debug"
   $framework = "4.5"
   $deploymentTarget = $env:DEPLOYMENT_TARGET
   $target_path = "c:\lazysystem\"
