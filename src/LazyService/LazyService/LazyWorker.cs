@@ -5,6 +5,7 @@ namespace LazyService
 {
     public class LazyWorker
     {
+
         private readonly ILog _log;
         private readonly IConfigurationSource _configurationSource;
         private bool shouldStop = false;
