@@ -7,5 +7,5 @@
    - component: LazyDB
      config:
       connectionstring:
-       DEV: Server=localhost\SQLEXPRESS; Database=lazydbDEV; Integrated Security=False;User Id=sa;Password=Global2000;
-       PROD: Server=localhost\SQLEXPRESS; Database=lazydb; Integrated Security=False;User Id=sa;Password=Global2000;
+       DEV: Server=localhost\SQLEXPRESS; Database=lazydbDEV; Integrated Security=False;User Id=sa;Password=secretpassword;
+       PROD: Server=localhost\SQLEXPRESS; Database=lazydb; Integrated Security=False;User Id=sa;Password=secretpassword;
