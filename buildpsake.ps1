@@ -2,7 +2,7 @@ properties {
   $helloMessage = 'Saying hello. This can be used for cleanup or something!'
   $framework = "4.5"
   $buildDir = "$PSScriptRoot\build" 
-  $zipFrom = "$PSScriptRoot\src\LazyService\LazyService\bin\Debug\"
+  $zipFrom = "$PSScriptRoot\src\LazyService\LazyService\bin\Release\"
   $zipTo = "$buildDir\LazyService.zip"
 }
 
@@ -20,7 +20,7 @@ task Compile -depends Hello {
 
 task Test -depends Compile, Hello { 
     exec { 
-        & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Debug\LazyService.Tests.dll" --teamcity --noheader
+        & "$PSScriptRoot\tools\NUnit.Console.3.0.0\nunit3-console.exe" "$PSScriptRoot\src\LazyService\LazyService.Tests\bin\Release\LazyService.Tests.dll" --teamcity --noheader
     }
 }
 
